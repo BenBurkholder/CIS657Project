@@ -8,8 +8,9 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-
 import { Feather } from "@expo/vector-icons";
+import { set } from "react-native-reanimated";
+import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-history';
 
 const CalculatorScreen = ({ route, navigation }) => {
   const [state, setState] = useState({
@@ -25,6 +26,19 @@ const CalculatorScreen = ({ route, navigation }) => {
 
   const initialField = useRef(null);
 
+  const [reminders, setReminders] = useState([]);
+
+  useEffect(() => {
+    try {
+      initGeoCalcDb();
+    } catch (err) {
+      console.log(err);
+    }
+    setupReminderListener((items) => {
+      setReminders(items)
+    });
+  }, []);
+  
   useEffect(() => {
     if (route.params?.selectedDistanceUnits) {
       console.log('setting values', route.params.selectedDistanceUnits, route.params.selectedBearingUnits);
@@ -36,6 +50,25 @@ const CalculatorScreen = ({ route, navigation }) => {
       );
     }
   }, [route.params?.selectedDistanceUnits, route.params?.selectedBearingUnits]);
+
+  useEffect(() => {
+    if (route.params?.latitude1) {
+      console.log('setting values', route.params.latitude1, route.params.longitude1, route.params.latitude2, route.params.longitude2);
+      // setState.lat1(route.params.latitude1);
+      // setState.lon1(route.params.longitude2);
+      // setState.lat2(route.params.latitude2);
+      // setState.lon2(route.params.longitude2);
+      // setDistanceUnits("Miles");
+      updateStateObject({
+        lat1: route.params.latitude1,
+        lon1: route.params.longitude1,
+        lat2: route.params.latitude2,
+        lon2: route.params.longitude2,
+      })  
+    }
+  }, [route.params?.latitude1, route.params?.longitude1, route.params?.latitude2, route.params?.longitude2]);
+
+  
 
   useEffect(() => {
     navigation.setOptions({
@@ -54,6 +87,11 @@ const CalculatorScreen = ({ route, navigation }) => {
             size={24}
             color="#fff"
           />
+        </TouchableOpacity>
+      ),
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.navigate("History", reminders)}>
+          <Text style={styles.headerButton}> History </Text>
         </TouchableOpacity>
       ),
     });
@@ -146,6 +184,7 @@ const CalculatorScreen = ({ route, navigation }) => {
       var bear = computeBearing(p1.lat, p1.lon, p2.lat, p2.lon);
       const dConv = dUnits === "Kilometers" ? 1.0 : 0.621371;
       const bConv = bUnits === "Degrees" ? 1.0 : 17.777777777778;
+      writeData(p1.lat, p1.lon, p2.lat, p2.lon)
       updateStateObject({
         distance: `${round(dist * dConv, 3)} ${dUnits}`,
         bearing: `${round(bear * bConv, 3)} ${bUnits}`,
