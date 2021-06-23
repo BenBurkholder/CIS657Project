@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { set } from "react-native-reanimated";
-import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-games';
+import { initGamesDb, writeData, setupDataListener} from '../helpers/fb-games'
 
 const CalculatorScreen = ({ route, navigation }) => {
   const [state, setState] = useState({

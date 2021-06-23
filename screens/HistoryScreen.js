@@ -43,16 +43,7 @@ const HistoryScreen = ({ route, navigation }) => {
         }
       }, []);
     
-    useEffect(() => {
-        navigation.setOptions({
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate("Geo Calculator")}>
-              <Text > Geo Calculator </Text>
-            </TouchableOpacity>
-          ),    
-
-        });
-    });
+    
 
     // useEffect(() => {
     //     if(latitude1 != -200) {
@@ -63,6 +54,25 @@ const HistoryScreen = ({ route, navigation }) => {
     //             longitude2
     //         })
     // }}, [longitude2]);
+
+    useEffect(() => {
+        navigation.setOptions({
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Video List")
+              }
+            >
+              <Feather
+                style={{ marginRight: 10 }}
+                name="settings"
+                size={24}
+                color="#fff"
+              />
+            </TouchableOpacity>
+          ),
+        });
+      });
 
     return(
         <FlatList
@@ -88,8 +98,7 @@ const HistoryScreen = ({ route, navigation }) => {
                     style ={{
                         borderBottomWidth: 1
                     }}>{item.title}{"\n"}
-                     Players: {item.players}{"\n"}
-                     Times played: {item.times}</Text>
+                     Players: {item.players}</Text>
                      </TouchableHighlight>
                 )
             }            

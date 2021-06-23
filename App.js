@@ -11,6 +11,8 @@ import Castles from './screens/Castles';
 import SevenWonders from './screens/SevenWonders';
 import LordsOfWaterdeep from './screens/LordsOfWaterdeep';
 import StoneAge from './screens/StoneAge';
+import VideoListScreen from "./screens/VideoListScreen";
+import YTViewerScreen from "./screens/YTViewerScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,13 +22,20 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={navStyling}>
           <Stack.Screen name="Games" component={HistoryScreen} /> 
-          <Stack.Screen name="Geo Calculator" component={CalculatorScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />  
           <Stack.Screen name="Agricola" component={Agricola} /> 
           <Stack.Screen name="Castles of Burgandy" component={Castles} />
           <Stack.Screen name="Seven Wonders" component={SevenWonders} />
           <Stack.Screen name="Lords of Waterdeep" component={LordsOfWaterdeep} />
-          <Stack.Screen name="Stone Age" component={StoneAge} />          
+          <Stack.Screen name="Stone Age" component={StoneAge} />
+          <Stack.Screen
+          name="Video List"
+          component={VideoListScreen}
+          options={{ title: "Learn to Play" }}
+        />
+        <Stack.Screen name="Video Viewer" component={YTViewerScreen} />       
+          
+             
         </Stack.Navigator>
       </NavigationContainer>
   );
