@@ -91,7 +91,7 @@ const HistoryScreen = ({ route, navigation }) => {
                           }}>
                     <Text 
                     style ={{
-                        borderBottomWidth: 1
+                        borderBottomWidth: 1, fontSize: 25
                     }}>{item.title}{"\n"}
                      Players: {item.players}</Text>
                      </TouchableHighlight>
