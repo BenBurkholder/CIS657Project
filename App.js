@@ -31,8 +31,7 @@ export default function App() {
           <Stack.Screen
           name="Video List"
           component={VideoListScreen}
-          options={{ title: "Learn to Play" }}
-        />
+          options={{ title: "Learn to Play" }} />
         <Stack.Screen name="Video Viewer" component={YTViewerScreen} />       
           
              

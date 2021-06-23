@@ -63,12 +63,7 @@ const HistoryScreen = ({ route, navigation }) => {
                 navigation.navigate("Video List")
               }
             >
-              <Feather
-                style={{ marginRight: 10 }}
-                name="settings"
-                size={24}
-                color="#fff"
-              />
+              <Text> Learn New Games </Text>
             </TouchableOpacity>
           ),
         });

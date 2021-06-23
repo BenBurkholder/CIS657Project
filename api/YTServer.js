@@ -26,7 +26,7 @@ YTServer.interceptors.request.use(
 
 export const getVideos = async (callback) => {
   const response = await YTServer.get(
-      `?key=${YT_KEY}part=snippet&q=board%20game%20learn%20to%20play&maxResults=25`
+      `?part=snippet&q=board%20game%20learn%20to%20play&key=${YT_KEY}`
   )  
   callback(response.data);
 };

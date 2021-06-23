@@ -35,6 +35,7 @@ const VideoListScreen = ({ navigation }) => {
           <ListItem.Chevron />
         </ListItem>
       </TouchableOpacity>
+    
     );
   };
 
