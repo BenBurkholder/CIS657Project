@@ -6,6 +6,11 @@ import React from 'react';
 import SettingsScreen from './screens/SettingsScreen';
 import { createStackNavigator } from "@react-navigation/stack";
 import HistoryScreen from './screens/HistoryScreen';
+import Agricola from './screens/Agricola';
+import Castles from './screens/Castles';
+import SevenWonders from './screens/SevenWonders';
+import LordsOfWaterdeep from './screens/LordsOfWaterdeep';
+import StoneAge from './screens/StoneAge';
 
 const Stack = createStackNavigator();
 
@@ -14,9 +19,14 @@ export default function App() {
     
       <NavigationContainer>
         <Stack.Navigator screenOptions={navStyling}>
+          <Stack.Screen name="Games" component={HistoryScreen} /> 
           <Stack.Screen name="Geo Calculator" component={CalculatorScreen} />
-          <Stack.Screen name="Settings" component={SettingsScreen} />
-          <Stack.Screen name="History" component={HistoryScreen} />
+          <Stack.Screen name="Settings" component={SettingsScreen} />  
+          <Stack.Screen name="Agricola" component={Agricola} /> 
+          <Stack.Screen name="Castles of Burgandy" component={Castles} />
+          <Stack.Screen name="Seven Wonders" component={SevenWonders} />
+          <Stack.Screen name="Lords of Waterdeep" component={LordsOfWaterdeep} />
+          <Stack.Screen name="Stone Age" component={StoneAge} />          
         </Stack.Navigator>
       </NavigationContainer>
   );

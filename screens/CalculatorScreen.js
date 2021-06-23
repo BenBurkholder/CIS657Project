@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { set } from "react-native-reanimated";
-import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-history';
+import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-games';
 
 const CalculatorScreen = ({ route, navigation }) => {
   const [state, setState] = useState({
@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   input: {
-    padding: 10,
+    padding: 1,
   },
   resultsGrid: {
     borderColor: "#000",

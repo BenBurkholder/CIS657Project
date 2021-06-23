@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFee
 import { Feather } from '@expo/vector-icons';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 import { TouchableHighlight } from 'react-native';
-import { setupReminderListener} from '../helpers/fb-history'
+import { initGamesDb, writeData, setupDataListener} from '../helpers/fb-games'
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -11,33 +11,40 @@ import 'firebase/database';
 import { firebaseConfig } from '../helpers/fb-credentials';
 
 const items = [
-    {lat1: '1', long1: '2', lat2: '3', long2: '4'},
-    {lat1: '2', long1: '2', lat2: '3', long2: '3'},
-    {lat1: '3', long1: '1', lat2: '4', long2: '4'},
+    {title: `Agricola`, players: `2-5`, times: "0"},
+    {title: `Castles of Burgandy`, players: `2-4`, times: "0"},
+    {title: `Seven Wonders`, players: `2-7`, times: "0"},
+    {title: `Lords of Waterdeep`, players: `2-5`, times: "0"},
+    {title: `Stone Age`, players: `2-4`, times: "0"}
 ];
 
 
 const HistoryScreen = ({ route, navigation }) => {
 
     const [history, setHistory] = useState(items);
-    const [latitude1, setLatitude1] = useState(-200);
-    const [longitude1, setLongitude1] = useState(2);
-    const [latitude2, setLatitude2] = useState(3);
-    const [longitude2, setLongitude2] = useState(4);
+    const [title, setTitle] = useState(-200);
+    const [players, setPlayers] = useState(2);
+
+    
+
     
 
     // useEffect(() => {        
     //     setHistory(route.params.reminders);
     // },[route.params.reminders]);
 
-    // useEffect(() => {
-    //     try {
-    //       initGeoCalcDb();
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //     setHistory(setupReminderListener());
-    //   }, []);
+    useEffect(() => {
+        try {
+          initGamesDb();
+        } catch (err) {
+          console.log(err);
+        }
+        setupDataListener('Agricola');
+        setupDataListener('Castles of Burgandy');
+        setupDataListener('Lords of Waterdeep');
+        setupDataListener('Seven Wonders');
+        setupDataListener('Stone Age');
+      }, []);
     
     useEffect(() => {
         navigation.setOptions({
@@ -50,20 +57,20 @@ const HistoryScreen = ({ route, navigation }) => {
         });
     });
 
-    useEffect(() => {
-        if(latitude1 != -200) {
-            navigation.navigate("Geo Calculator", {
-                latitude1,
-                longitude1,
-                latitude2,
-                longitude2
-            })
-    }}, [longitude2]);
+    // useEffect(() => {
+    //     if(latitude1 != -200) {
+    //         navigation.navigate("Geo Calculator", {
+    //             latitude1,
+    //             longitude1,
+    //             latitude2,
+    //             longitude2
+    //         })
+    // }}, [longitude2]);
 
     return(
         <FlatList
             
-            keyExtractor={(item) => item.lat1}
+            keyExtractor={(item) => item.title}
             data={history}
             renderItem={({ index, item}) => {
                 return(
@@ -73,16 +80,19 @@ const HistoryScreen = ({ route, navigation }) => {
                         onPress={() => {
                             // navigate back with new settings.
                             
-                            setLatitude1(item.lat1);
-                            setLongitude1(item.long1);
-                            setLatitude2(item.lat2);
-                            setLongitude2(item.long2);
+                            // setLatitude1(item.lat1);
+                            // setLongitude1(item.long1);
+                            // setLatitude2(item.lat2);
+                            // setLongitude2(item.long2);
+                            navigation.navigate(item.title)
+                            writeData(item.title, parseInt(item.times) + 1)
                           }}>
                     <Text 
                     style ={{
                         borderBottomWidth: 1
-                    }}>Start: {item.lat1}, {item.long1} {"\n"}
-                     End: {item.lat2}, {item.long2}</Text>
+                    }}>{item.title}{"\n"}
+                     Players: {item.players}{"\n"}
+                     Times played: {item.times}</Text>
                      </TouchableHighlight>
                 )
             }            
