@@ -28,7 +28,7 @@ const Agricola = ({ route, navigation }) => {
     const [HS, setHS] = useState("0")
 
     function totalScore() {
-        updateStateObject({total: (parseFloat(state.fields) + parseFloat(state.pastures) + parseFloat(state.grain) + parseFloat(state.vegatables) + parseFloat(state.animals) 
+        updateStateObject({total: (parseFloat(state.fields) + parseFloat(state.grain) + parseFloat(state.animals) 
             - parseFloat(state.unused) + parseFloat(state.stables) + parseFloat(state.rooms) + parseFloat(state.family) + parseFloat(state.cards))})             
     }
     
@@ -42,9 +42,7 @@ const Agricola = ({ route, navigation }) => {
 
     const [state, setState] = useState({
         fields: "",
-        pastures: "",
-        grain: "",
-        vegatables: "",
+        grain: "",        
         animals: "",
         unused: "",
         stables: "",
@@ -80,7 +78,7 @@ const Agricola = ({ route, navigation }) => {
           <View style={styles.container}>
             <Input
               style={styles.input}
-              placeholder="Enter points for fields"
+              placeholder="Enter points for fields and pastures"
               ref={initialField}
               value={state.fields}
               autoCorrect={false}
@@ -88,24 +86,10 @@ const Agricola = ({ route, navigation }) => {
             />
             <Input
               style={styles.input}
-              placeholder="Enter points for pastures"
-              value={state.pastures}
-              autoCorrect={false}
-              onChangeText={(val) => updateStateObject({ pastures: val })}
-            />
-            <Input
-              style={styles.input}
-              placeholder="Enter points for grain"
+              placeholder="Enter points for grain and vegatables"
               value={state.grain}
               autoCorrect={false}
               onChangeText={(val) => updateStateObject({ grain: val })}
-            />
-            <Input
-              style={styles.input}
-              placeholder="Enter points for vegatables"
-              value={state.vegatables}
-              autoCorrect={false}
-              onChangeText={(val) => updateStateObject({ vegatables: val })}
             />
             <Input
               style={styles.input}
@@ -171,9 +155,7 @@ const Agricola = ({ route, navigation }) => {
                   Keyboard.dismiss();
                   setState({
                     fields: "",
-                    pastures: "",
                     grain: "",
-                    vegatables: "",
                     animals: "",
                     unused: "",
                     stables: "",

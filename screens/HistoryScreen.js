@@ -63,7 +63,7 @@ const HistoryScreen = ({ route, navigation }) => {
                 navigation.navigate("Video List")
               }
             >
-              <Text> Learn New Games </Text>
+              <Text style={styles.header}> Learn New Games </Text>
             </TouchableOpacity>
           ),
         });
@@ -110,7 +110,13 @@ const HistoryScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
-    
+    text:{
+        fontSize: 30,
+    },
+    header:{
+        color: '#ffffff',
+        fontSize: 15,
+        
+    }
 });
 export default HistoryScreen;
