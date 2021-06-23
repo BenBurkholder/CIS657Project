@@ -10,7 +10,12 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { set } from "react-native-reanimated";
-import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-games';
+import { initGamesDb, writeData, setupDataListener} from '../helpers/fb-games'
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import { firebaseConfig } from '../helpers/fb-credentials';
 
 
 
@@ -19,11 +24,14 @@ import { StatusBar } from 'expo-status-bar';
 const Agricola = ({ route, navigation }) => {
 
     const initialField = useRef(null);
+    const [game, setGame] = useState("Agricola");
+    const [HS, setHS] = useState("0")
 
     function totalScore() {
-        updateStateObject({total: (parseFloat(state.fields) + parseFloat(state.pastures) + parseFloat(state.grain) + parseFloat(state.vegatables) + parseFloat(state.sheep) + parseFloat(state.boar) + 
-            parseFloat(state.cattle) - parseFloat(state.unused) + parseFloat(state.stables) + parseFloat(state.rooms) + parseFloat(state.family) + parseFloat(state.cards))}) 
+        updateStateObject({total: (parseFloat(state.fields) + parseFloat(state.pastures) + parseFloat(state.grain) + parseFloat(state.vegatables) + parseFloat(state.animals) 
+            - parseFloat(state.unused) + parseFloat(state.stables) + parseFloat(state.rooms) + parseFloat(state.family) + parseFloat(state.cards))})             
     }
+    
 
     const updateStateObject = (vals) => {
         setState({
@@ -37,9 +45,7 @@ const Agricola = ({ route, navigation }) => {
         pastures: "",
         grain: "",
         vegatables: "",
-        sheep: "",
-        boar: "",
-        cattle: "",
+        animals: "",
         unused: "",
         stables: "",
         rooms: "",
@@ -47,6 +53,27 @@ const Agricola = ({ route, navigation }) => {
         cards: "",
         total: "",
       });
+
+      
+      useEffect(() => {
+        if(state.total > HS){
+            writeData(game, state.total);
+            setHS(state.total)
+        }
+      }, [state.total]);
+
+      function setupDataListener() {
+        firebase
+        .database()
+        .ref(`gameData/Agricola`)
+        .on('value', (snapshot) => {
+            setHS(snapshot.val());
+        });
+      }
+
+      useEffect(() => {
+        setupDataListener()
+        }, [state.total]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -82,25 +109,11 @@ const Agricola = ({ route, navigation }) => {
             />
             <Input
               style={styles.input}
-              placeholder="Enter points for sheep"
+              placeholder="Enter points for animals"
               ref={initialField}
-              value={state.sheep}
+              value={state.animals}
               autoCorrect={false}
-              onChangeText={(val) => updateStateObject({ sheep: val })}
-            />
-            <Input
-              style={styles.input}
-              placeholder="Enter points for wild boar"
-              value={state.boar}
-              autoCorrect={false}
-              onChangeText={(val) => updateStateObject({ boar: val })}
-            />
-            <Input
-              style={styles.input}
-              placeholder="Enter points for cattle"
-              value={state.cattle}
-              autoCorrect={false}
-              onChangeText={(val) => updateStateObject({ cattle: val })}
+              onChangeText={(val) => updateStateObject({ animals: val })}
             />
             <Input
               style={styles.input}
@@ -144,7 +157,9 @@ const Agricola = ({ route, navigation }) => {
               <Button
                 style={styles.buttons}
                 title="Total Score"
-                onPress={() => totalScore()}
+                onPress={() => {
+                    Keyboard.dismiss();
+                    totalScore();}}
               />
             </View>
             <View>
@@ -159,9 +174,7 @@ const Agricola = ({ route, navigation }) => {
                     pastures: "",
                     grain: "",
                     vegatables: "",
-                    sheep: "",
-                    boar: "",
-                    cattle: "",
+                    animals: "",
                     unused: "",
                     stables: "",
                     rooms: "",
@@ -175,6 +188,7 @@ const Agricola = ({ route, navigation }) => {
             <View >
             
               <Text style={styles.resultsLabelText}> Total Score: {state.total}</Text>
+              <Text style={styles.resultsLabelText}> High Score: {HS}</Text>
             
             </View>
           </View>
