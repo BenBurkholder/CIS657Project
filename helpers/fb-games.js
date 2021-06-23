@@ -11,14 +11,14 @@ export function writeData(key, data) {
   firebase.database().ref(`gameData/${key}`).set(data);
 }
 
-export function setupDataListener(key) {
-  firebase
-  .database()
-  .ref(`gameData/${key}`)
-  .on('value', (snapshot) => {
-    console.log('data listener fires up with: ', snapshot);
-  });
-}
+// export function setupDataListener(key) {
+//   firebase
+//   .database()
+//   .ref(`gameData/${key}`)
+//   .on('value', (snapshot) => {
+//     console.log('data listener fires up with: ', snapshot);
+//   });
+// }
 
 // export function storeGeoItem(item) {
 //     firebase.database().ref('geocData/').push(item);

@@ -10,10 +10,10 @@ import 'firebase/auth';
 import 'firebase/database';
 import { firebaseConfig } from '../helpers/fb-credentials';
 
-const items = [
-    {title: `Agricola`, players: `2-5`, times: "0"},
+const items = [    
     {title: `Castles of Burgandy`, players: `2-4`, times: "0"},
     {title: `Seven Wonders`, players: `2-7`, times: "0"},
+    {title: `Agricola`, players: `2-5`, times: "0"},
     {title: `Lords of Waterdeep`, players: `2-5`, times: "0"},
     {title: `Stone Age`, players: `2-4`, times: "0"}
 ];
@@ -24,7 +24,9 @@ const HistoryScreen = ({ route, navigation }) => {
     const [history, setHistory] = useState(items);
     const [title, setTitle] = useState(-200);
     const [players, setPlayers] = useState(2);
+    
 
+      
     
 
     
@@ -85,7 +87,7 @@ const HistoryScreen = ({ route, navigation }) => {
                             // setLatitude2(item.lat2);
                             // setLongitude2(item.long2);
                             navigation.navigate(item.title)
-                            writeData(item.title, parseInt(item.times) + 1)
+                            // writeData(item.title, parseInt(item.times) + 1)
                           }}>
                     <Text 
                     style ={{
