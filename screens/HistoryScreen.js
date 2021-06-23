@@ -41,11 +41,6 @@ const HistoryScreen = ({ route, navigation }) => {
         } catch (err) {
           console.log(err);
         }
-        setupDataListener('Agricola');
-        setupDataListener('Castles of Burgandy');
-        setupDataListener('Lords of Waterdeep');
-        setupDataListener('Seven Wonders');
-        setupDataListener('Stone Age');
       }, []);
     
     useEffect(() => {

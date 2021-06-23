@@ -10,7 +10,10 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { set } from "react-native-reanimated";
-import { initGeoCalcDb, writeData, storeGeoItem, setupDataListener, setupReminderListener } from '../helpers/fb-games';
+import { initGamesDb, writeData, setupDataListener} from '../helpers/fb-games'
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 
 
@@ -41,6 +44,29 @@ const StoneAge = ({ route, navigation }) => {
         resources: "",
         total: "",
         });
+
+        const [game, setGame] = useState("Stone Age");
+        const [HS, setHS] = useState("0")
+    
+    useEffect(() => {
+            if(state.total > HS){
+                writeData(game, state.total);
+                setHS(state.total)
+            }
+          }, [state.total]);
+    
+          function setupDataListener() {
+            firebase
+            .database()
+            .ref(`gameData/Stone Age`)
+            .on('value', (snapshot) => {
+                setHS(snapshot.val());
+            });
+          }
+    
+          useEffect(() => {
+            setupDataListener()
+            }, [state.total]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -122,6 +148,7 @@ const StoneAge = ({ route, navigation }) => {
             <View >
             
                 <Text style={styles.resultsLabelText}> Total Score: {state.total}</Text>
+                <Text style={styles.resultsLabelText}> High Score: {HS}</Text>
             
             </View>
             </View>
